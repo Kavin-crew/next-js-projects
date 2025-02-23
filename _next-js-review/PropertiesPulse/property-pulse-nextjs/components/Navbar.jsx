@@ -5,10 +5,18 @@ import Link from "next/link";
 import Logo from "@/assets/images/logo-white.png";
 import profileDefault from "@/assets/images/profile.png";
 import { FaGoogle } from "react-icons/fa";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
+
+  const handleProfileDropdown = () => setProfileMenuOpen((prev) => false);
+  const profileRef = useOutsideClick(handleProfileDropdown);
+
+  const handleMobileMenuDropdown = () => setIsMobileMenuOpen((prev) => false);
+  const mobileMenuRef = useOutsideClick(handleMobileMenuDropdown);
+
   return (
     <nav className="bg-blue-700 border-b border-blue-500">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -16,6 +24,7 @@ const Navbar = () => {
           <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
             {/* <!-- Mobile menu button--> */}
             <button
+              ref={mobileMenuRef}
               onClick={() => setIsMobileMenuOpen((prevState) => !prevState)}
               type="button"
               id="mobile-dropdown-button"
@@ -119,6 +128,7 @@ const Navbar = () => {
             <div className="relative ml-3">
               <div>
                 <button
+                  ref={profileRef}
                   onClick={() => setProfileMenuOpen((prevState) => !prevState)}
                   type="button"
                   className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
